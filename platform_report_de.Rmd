@@ -29,7 +29,7 @@ library(Vennerable)
 
 ```{r type, out.width='100%', out.extra='keepaspectratio'}
 venn_types <- Vennerable::Venn(params$types)
-plot(venn_types, type = "AWFE")
+plot(venn_types)
 ```
 
 ### Zielgruppe
@@ -41,12 +41,12 @@ plot(venn_tg, type = "AWFE")
 
 ### Ursprung
 
-Es existieren zu viele Ursprungsstädte, um es in einem Venn Diagram darzustellen.
+Es existieren zu viele Ursprungsstädte, um Plattformen danach in einem Venn Diagram darzustellen.
 
 ```{r origins, out.width='100%', out.extra='keepaspectratio'}
 # too many origins at the moment
 # venn_origins <- Vennerable::Venn(params$origins)
-# plot(venn_origins, type = "AWFE")
+# plot(venn_origins)
 ```
 
 ### Reichweite
