@@ -25,6 +25,15 @@ library(Vennerable)
 
 ## Plattform nach {.tabset}
 
+```{r fig_setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.width = 7.5,
+  fig.height = 7.5,
+  out.width = '100%',
+  out.extra = 'keepaspectratio'
+)
+```
+
 ### Typ
 
 ```{r type, out.width='100%', out.extra='keepaspectratio'}
