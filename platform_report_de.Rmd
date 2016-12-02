@@ -1,0 +1,55 @@
+---
+title: "Übersichtsplattformen"
+author: "metacollect"
+date: '`r format(Sys.time(), "%Y-%m-%d")`'
+output:
+  pdf_document: default
+  html_document: default
+params:
+  origins: ''
+  reach: ''
+  target_groups: ''
+  types: ''
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = FALSE)
+```
+
+```{r libs, include=FALSE}
+library(Vennerable)
+```
+
+## Plattform nach {.tabset}
+
+### Typ
+
+```{r type, out.width='100%', out.extra='keepaspectratio'}
+venn_types <- Vennerable::Venn(params$types)
+plot(venn_types, type = "AWFE")
+```
+
+### Zielgruppe
+
+```{r target_groups, out.width='100%', out.extra='keepaspectratio'}
+venn_tg <- Vennerable::Venn(params$target_groups)
+plot(venn_tg, type = "AWFE")
+```
+
+### Ursprung
+
+```{r origins, out.width='100%', out.extra='keepaspectratio'}
+# too many origins at the moment
+# venn_origins <- Vennerable::Venn(params$origins)
+# plot(venn_origins, type = "AWFE")
+```
+
+### Reichweite
+
+```{r reach, out.width='100%', out.extra='keepaspectratio'}
+venn_reach <- Vennerable::Venn(params$reach)
+plot(venn_reach)
+```

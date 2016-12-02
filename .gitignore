@@ -1,0 +1,8 @@
+packrat/lib*/
+.Rproj.user
+.Rhistory
+.Rprofile
+infographics.Rproj
+packrat/
+platform_report_de.html
+platform_report_de.pdf
