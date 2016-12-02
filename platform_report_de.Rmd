@@ -41,6 +41,8 @@ plot(venn_tg, type = "AWFE")
 
 ### Ursprung
 
+Es existieren zu viele Ursprungsstädte, um es in einem Venn Diagram darzustellen.
+
 ```{r origins, out.width='100%', out.extra='keepaspectratio'}
 # too many origins at the moment
 # venn_origins <- Vennerable::Venn(params$origins)
