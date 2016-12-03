@@ -21,38 +21,59 @@ knitr::opts_chunk$set(echo = FALSE,
 
 ```{r libs, include=FALSE}
 library(Vennerable)
+library(ggplot2)
+```
+
+```{r definitions, include=FALSE}
+get_factor_tibble <- function(vec) {
+  tmp <- sapply(vec, length)
+  return(tibble::tibble(Faktor = names(tmp), `Anzahl Plattformen` = tmp))
+}
+
+plot_factors <- function(data_table) {
+  ggplot2::ggplot(data = data_table,
+                  mapping = ggplot2::aes(x = Faktor, y = `Anzahl Plattformen`)) +
+  ggplot2::geom_col() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
 ```
 
 ## Plattform nach {.tabset}
 
-```{r fig_setup, include=FALSE}
-knitr::opts_chunk$set(
-  fig.width = 7.5,
-  fig.height = 7.5,
-  out.width = '100%',
-  out.extra = 'keepaspectratio'
-)
-```
-
 ### Typ
 
-```{r type, out.width='100%', out.extra='keepaspectratio'}
+```{r type, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+tmp <- get_factor_tibble(params$types)
+plot_factors(tmp)
+```
+
+```{r venn-type, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
 venn_types <- Vennerable::Venn(params$types)
 plot(venn_types)
 ```
 
 ### Zielgruppe
 
-```{r target_groups, out.width='100%', out.extra='keepaspectratio'}
+```{r target_groups, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+tmp <- get_factor_tibble(params$target_groups)
+plot_factors(tmp)
+```
+
+```{r venn-target_groups, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
 venn_tg <- Vennerable::Venn(params$target_groups)
 plot(venn_tg, type = "AWFE")
 ```
 
 ### Ursprung
 
+```{r origins, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+tmp <- get_factor_tibble(params$origins)
+plot_factors(tmp)
+```
+
 Es existieren zu viele Ursprungsstädte, um Plattformen danach in einem Venn Diagram darzustellen.
 
-```{r origins, out.width='100%', out.extra='keepaspectratio'}
+```{r venn-origins, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
 # too many origins at the moment
 # venn_origins <- Vennerable::Venn(params$origins)
 # plot(venn_origins)
@@ -60,7 +81,12 @@ Es existieren zu viele Ursprungsstädte, um Plattformen danach in einem Venn Dia
 
 ### Reichweite
 
-```{r reach, out.width='100%', out.extra='keepaspectratio'}
+```{r reach, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+tmp <- get_factor_tibble(params$reach)
+plot_factors(tmp)
+```
+
+```{r venn-reach, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
 venn_reach <- Vennerable::Venn(params$reach)
 plot(venn_reach)
 ```

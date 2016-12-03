@@ -71,6 +71,7 @@ types <- get_groups_by_cols(platforms, type_cols)
 # Projects by Target Group ------------------------------------------------
 
 target_groups <- get_groups_by_cols(platforms, target_cols)
+names(target_groups) <- sapply(names(target_groups), substring, 4)
 
 # Projects by Origin ------------------------------------------------------
 
