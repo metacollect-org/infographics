@@ -5,16 +5,30 @@ suppressPackageStartupMessages(library(dplyr))
 
 # Globals -----------------------------------------------------------------
 
-get_groups <- function(data_frame, variable, identifier = "Projekt") {
-  lvls <- levels(data_frame[[variable]])
+get_groups_by_factor <- function(data_frame, factor_var, identifier = "Projekt") {
+  lvls <- levels(data_frame[[factor_var]])
   groups <- list()
   length(groups) <- length(lvls)
   names(groups) <- lvls
 
-  tmp <- dplyr::select_(data_frame, identifier, variable)
+  tmp <- dplyr::select_(data_frame, identifier, factor_var)
 
   for (lvl in lvls) {
-    groups[[lvl]] <- dplyr::filter(tmp, tmp[[variable]] == lvl) %>%
+    groups[[lvl]] <- dplyr::filter(tmp, tmp[[factor_var]] == lvl) %>%
+      getElement(identifier)
+  }
+  return(groups)
+}
+
+get_groups_by_cols <- function(data_frame, col_names, identifier = "Projekt") {
+  groups <- list()
+  length(groups) <- length(col_names)
+  names(groups) <- col_names
+
+  tmp <- dplyr::select(data_frame, dplyr::one_of(c(identifier, col_names)))
+
+  for (lvl in col_names) {
+    groups[[lvl]] <- dplyr::filter(tmp, tmp[[lvl]]) %>%
       getElement(identifier)
   }
   return(groups)
@@ -31,7 +45,7 @@ type_cols <- c("Händische Liste",
                "Vernetzungsplattform")
 platforms[, type_cols] <- platforms[, type_cols] == "1"
 
-target_cols <- dplyr::starts_with("ZG", vars = names(platforms))
+target_cols <- names(platforms)[dplyr::starts_with("ZG", vars = names(platforms))]
 platforms[, target_cols] <- platforms[, target_cols] == "ja"
 
 factor_cols <- c("Typ", "Stadt", "Localization")
@@ -52,38 +66,19 @@ if (diff > 0) {
 
 # Projects by Type --------------------------------------------------------
 
-types = list()
-length(types) = length(type_cols)
-names(types) = type_cols
-
-tmp <- dplyr::select(platforms, Projekt, one_of(type_cols))
-
-for (lvl in type_cols) {
-  types[[lvl]] <- dplyr::filter(tmp, tmp[[lvl]]) %>%
-    getElement("Projekt")
-}
+types <- get_groups_by_cols(platforms, type_cols)
 
 # Projects by Target Group ------------------------------------------------
 
-target_lvls = names(platforms)[target_cols]
-target_groups = list()
-length(target_groups) = length(target_lvls)
-names(target_groups) = target_lvls
-
-tmp <- dplyr::select(platforms, Projekt, target_cols)
-
-for (lvl in target_lvls) {
-  target_groups[[lvl]] <- dplyr::filter(tmp, tmp[[lvl]]) %>%
-    getElement("Projekt")
-}
+target_groups <- get_groups_by_cols(platforms, target_cols)
 
 # Projects by Origin ------------------------------------------------------
 
-cities <- get_groups(platforms, "Stadt")
+cities <- get_groups_by_factor(platforms, "Stadt")
 
 # Projects by Localization ------------------------------------------------
 
-localizations <- get_groups(platforms, "Localization")
+localizations <- get_groups_by_factor(platforms, "Localization")
 
 # Report ------------------------------------------------------------------
 
