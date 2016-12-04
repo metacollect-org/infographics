@@ -1,0 +1,29 @@
+{
+  "name": "infographics",
+  "version": "0.1.0",
+  "description": "Infographics and reports published by metacollect.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metacollect-org/infographics.git"
+  },
+  "keywords": [
+    "metacollect",
+    "refugee",
+    "projects",
+    "info",
+    "graphs"
+  ],
+  "author": "metacollect",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/metacollect-org/infographics/issues"
+  },
+  "homepage": "https://github.com/metacollect-org/infographics#readme",
+  "dependencies": {
+    "venn.js": "^0.2.14"
+  }
+}

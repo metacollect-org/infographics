@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <title>Übersichtsplattformen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="metacollect">
+  </head>
+  <body>
+    <h1>Übersichtsplattformen</h1>
+    <div id="venn"></div>
+
+    <script src="node_modules/venn.js/build/venn.min.js"></script>
+    <script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
+    <script type="text/javascript">
+      var sets = [
+        {sets: ['Zeitspendenplattform'], size: 13},
+        {sets: ['Sachspendenplattform'], size: 9},
+        {sets: ['Zeitspendenplattform', 'Sachspendenplattform'], size: 8}
+      ];
+
+      var chart = venn.VennDiagram();
+      d3.select("#venn").datum(sets).call(chart);
+    </script>
+  </body>
+</html>

@@ -1,3 +1,4 @@
+# R
 packrat/lib*/
 .Rproj.user
 .Rhistory
@@ -6,3 +7,6 @@ infographics.Rproj
 packrat/
 platform_report_de.html
 platform_report_de.pdf
+
+# JS
+node_modules/

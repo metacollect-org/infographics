@@ -81,6 +81,17 @@ cities <- get_groups_by_factor(platforms, "Stadt")
 
 localizations <- get_groups_by_factor(platforms, "Localization")
 
+# Pairwise Overlap --------------------------------------------------------
+
+pairs <- utils::combn(names(types), 2, simplify = FALSE)
+inter <- numeric(length(pairs))
+for (i in 1:length(pairs)) {
+  a <- types[[pairs[[i]][1]]]
+  b <- types[[pairs[[i]][2]]]
+  inter <- length(intersect(a, b))
+}
+tibble()
+
 # Report ------------------------------------------------------------------
 
 rmarkdown::render(
