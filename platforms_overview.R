@@ -88,9 +88,9 @@ inter <- numeric(length(pairs))
 for (i in 1:length(pairs)) {
   a <- types[[pairs[[i]][1]]]
   b <- types[[pairs[[i]][2]]]
-  inter <- length(intersect(a, b))
+  inter[i] <- length(intersect(a, b))
 }
-tibble()
+tibble(Paar = sapply(pairs, paste, sep = "", collapse = ", "), Schnittmenge = inter)
 
 # Report ------------------------------------------------------------------
 
