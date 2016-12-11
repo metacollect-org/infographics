@@ -10,3 +10,7 @@ platform_report_de.pdf
 
 # JS
 node_modules/
+.npm
+*.log
+npm-debug.log*
+dist/
