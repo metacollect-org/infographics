@@ -74,6 +74,8 @@ for (col in factor_cols) {
   platforms[[col]] <- factor(platforms[[col]])
 }
 
+platforms$helferallianz <- as.logical(platforms$helferallianz)
+
 # Sanity Checks -----------------------------------------------------------
 
 diff <- length(platforms$Projekt) - length(unique(platforms$Projekt))
