@@ -6,3 +6,4 @@ if (module.hot) {
 
 import 'babel-polyfill';
 import '../styles/index.scss';
+import './render_venn_example.js';
