@@ -2,6 +2,9 @@
 
 suppressPackageStartupMessages(library(readr))
 suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(Vennerable))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(rmarkdown))
 
 # Globals -----------------------------------------------------------------
 
@@ -36,7 +39,7 @@ get_groups_by_cols <- function(data_frame, col_names, identifier = "Projekt") {
 
 # Data --------------------------------------------------------------------
 
-platforms <- readr::read_csv("social collective Vernetzungsplattformen - csv_Vorlage.csv")
+platforms <- readr::read_csv("plattformen.csv")
 
 type_cols <- c("Händische Liste",
                "Link-/Projektsammlung",
