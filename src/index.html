@@ -19,17 +19,5 @@
     <h1>Übersichtsplattformen</h1>
     <div id="venn"></div>
 
-    <script src="venn.min.js"></script>
-    <script src="d3-selection.min.js"></script>
-    <script type="text/javascript">
-      var sets = [
-        {sets: ['Zeitspendenplattform'], size: 13},
-        {sets: ['Sachspendenplattform'], size: 9},
-        {sets: ['Zeitspendenplattform', 'Sachspendenplattform'], size: 8}
-      ];
-
-      var chart = venn.VennDiagram();
-      d3.select("#venn").datum(sets).call(chart);
-    </script>
   </body>
 </html>
