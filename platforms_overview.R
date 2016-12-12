@@ -37,6 +37,24 @@ get_groups_by_cols <- function(data_frame, col_names, identifier = "Projekt") {
   return(groups)
 }
 
+sub_venn <- function(pairs) {
+  ggplot2::ggplot(pairs, aes(x = Paar, y = Schnittmenge)) +
+    ggplot2::geom_col() +
+    ggplot2::theme(axis.text.x  = element_text(angle=45, hjust = 1))
+}
+
+get_intersections <- function(groups, num = 2) {
+  pairs <- utils::combn(names(groups), num, simplify = FALSE)
+  inter <- numeric(length(pairs))
+  for (i in 1:length(pairs)) {
+    a <- groups[[pairs[[i]][1]]]
+    b <- groups[[pairs[[i]][2]]]
+    inter[i] <- length(intersect(a, b))
+  }
+  return(tibble::tibble(Paar = sapply(pairs, paste, sep = "", collapse = "\n"),
+                        Schnittmenge = inter))
+}
+
 # Data --------------------------------------------------------------------
 
 platforms <- readr::read_csv("plattformen.csv")
@@ -86,14 +104,11 @@ localizations <- get_groups_by_factor(platforms, "Localization")
 
 # Pairwise Overlap --------------------------------------------------------
 
-pairs <- utils::combn(names(types), 2, simplify = FALSE)
-inter <- numeric(length(pairs))
-for (i in 1:length(pairs)) {
-  a <- types[[pairs[[i]][1]]]
-  b <- types[[pairs[[i]][2]]]
-  inter[i] <- length(intersect(a, b))
-}
-tibble(Paar = sapply(pairs, paste, sep = "", collapse = ", "), Schnittmenge = inter)
+get_intersections(target_groups, 3)
+
+plot(Venn(types[c("Zeitspendenplattform",
+                  "Sachspendenplattform",
+                  "Link-/Projektsammlung")]))
 
 # Report ------------------------------------------------------------------
 
@@ -105,5 +120,6 @@ rmarkdown::render(
     target_groups = target_groups,
     origins = cities,
     reach = localizations
-  )
+  ),
+  envir = new.env(parent = globalenv())
 )

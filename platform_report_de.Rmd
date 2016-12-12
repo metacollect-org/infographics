@@ -30,63 +30,108 @@ get_factor_tibble <- function(vec) {
   return(tibble::tibble(Faktor = names(tmp), `Anzahl Plattformen` = tmp))
 }
 
+get_intersections <- function(groups, num = 2) {
+  pairs <- utils::combn(names(groups), num, simplify = FALSE)
+  inter <- numeric(length(pairs))
+  for (i in 1:length(pairs)) {
+    a <- groups[[pairs[[i]][1]]]
+    b <- groups[[pairs[[i]][2]]]
+    inter[i] <- length(intersect(a, b))
+  }
+  return(tibble::tibble(Paar = sapply(pairs, paste, sep = "", collapse = "\n"),
+                        Schnittmenge = inter))
+}
+
 plot_factors <- function(data_table) {
   ggplot2::ggplot(data = data_table,
                   mapping = ggplot2::aes(x = Faktor, y = `Anzahl Plattformen`)) +
   ggplot2::geom_col() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
+
+plot_pairs <- function(pairs) {
+  ggplot2::ggplot(pairs, aes(x = Paar, y = Schnittmenge)) +
+    ggplot2::geom_col() +
+    ggplot2::theme(axis.text.x  = element_text(angle=45, hjust = 1))
+}
 ```
 
 ## Plattform nach {.tabset}
 
-### Typ
-
-```{r type, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
-tmp <- get_factor_tibble(params$types)
-plot_factors(tmp)
-```
-
-```{r venn-type, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
-venn_types <- Vennerable::Venn(params$types)
-plot(venn_types)
-```
-
-### Zielgruppe
-
-```{r target_groups, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
-tmp <- get_factor_tibble(params$target_groups)
-plot_factors(tmp)
-```
-
-```{r venn-target_groups, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
-venn_tg <- Vennerable::Venn(params$target_groups)
-plot(venn_tg, type = "AWFE")
+```{r fig-setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 7.5,
+                      fig.height = 7.5,
+                      out.width = '100%',
+                      out.extra='keepaspectratio')
 ```
 
 ### Ursprung
 
-```{r origins, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+```{r origins}
 tmp <- get_factor_tibble(params$origins)
 plot_factors(tmp)
 ```
 
 Es existieren zu viele Ursprungsstädte, um Plattformen danach in einem Venn Diagram darzustellen.
 
-```{r venn-origins, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+```{r venn-origins}
 # too many origins at the moment
 # venn_origins <- Vennerable::Venn(params$origins)
 # plot(venn_origins)
 ```
 
+### Typ
+
+```{r type-pairs}
+tmp <- get_factor_tibble(params$types)
+plot_factors(tmp)
+```
+
+```{r type}
+tmp <- get_intersections(params$types)
+plot_pairs(tmp)
+tmp <- get_intersections(params$types, 3)
+plot_pairs(tmp)
+```
+
+```{r venn-type}
+plot(Venn(params$types[c("Zeitspendenplattform",
+                  "Sachspendenplattform",
+                  "Link-/Projektsammlung")]))
+venn_types <- Vennerable::Venn(params$types)
+plot(venn_types)
+```
+
+### Zielgruppe
+
+```{r target_groups}
+tmp <- get_factor_tibble(params$target_groups)
+plot_factors(tmp)
+```
+
+```{r target_groups-pairs}
+tmp <- get_intersections(params$target_groups)
+plot_pairs(tmp)
+tmp <- get_intersections(params$target_groups, 3)
+plot_pairs(tmp)
+```
+
+```{r venn-target_groups}
+plot(Venn(params$target_groups[c("Spender",
+                                 "Projekte",
+                                 "Volontäre")]))
+venn_tg <- Vennerable::Venn(params$target_groups)
+plot(venn_tg, type = "AWFE")
+```
+
 ### Reichweite
 
-```{r reach, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+```{r reach}
 tmp <- get_factor_tibble(params$reach)
 plot_factors(tmp)
 ```
 
-```{r venn-reach, fig.width=7.5, fig.height=7.5, out.width='100%', out.extra='keepaspectratio'}
+```{r venn-reach}
 venn_reach <- Vennerable::Venn(params$reach)
 plot(venn_reach)
 ```
